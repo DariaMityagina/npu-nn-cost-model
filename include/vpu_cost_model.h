@@ -585,7 +585,7 @@ public:
         for (unsigned int wl_idx = 0; wl_idx < workloads.size(); wl_idx += model_batch_size) {
             // Slice the workload descriptors and predict on a single batch
             const float* hw_overhead_arr =
-                    vpunn_runtime.predict(&(vector[wl_idx * descriptor_size]), inputs_to_process_in_batch);
+                    vpunn_runtime.predict(&(vector[static_cast<size_t>(wl_idx) * static_cast<size_t>(descriptor_size)]), inputs_to_process_in_batch);
 
             const auto complete_batch_end_idx{wl_idx + model_batch_size};
             auto end_idx{(complete_batch_end_idx > workloads.size()) ? workloads.size() : complete_batch_end_idx};

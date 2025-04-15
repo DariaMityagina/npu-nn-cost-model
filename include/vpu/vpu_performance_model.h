@@ -66,26 +66,26 @@ private:
         unsigned long int Pt_cycles, Pb_cycles;
         unsigned long int Pl_cycles, Pr_cycles;
 
-        Pt_cycles = Pt_zeros * Kw * ceil_division(inp_width, Sw);
-        Pb_cycles = Pb_zeros * Kw * ceil_division(inp_width, Sw);
-        Pl_cycles = Pl_zeros * Kh * ceil_division(inp_height, Sh);
-        Pr_cycles = Pr_zeros * Kh * ceil_division(inp_height, Sh);
+        Pt_cycles = static_cast<unsigned long>(Pt_zeros) * static_cast<unsigned long>(Kw) * ceil_division(inp_width, Sw);
+        Pb_cycles = static_cast<unsigned long>(Pb_zeros) * static_cast<unsigned long>(Kw) * ceil_division(inp_width, Sw);
+        Pl_cycles = static_cast<unsigned long>(Pl_zeros) * static_cast<unsigned long>(Kh) * ceil_division(inp_height, Sh);
+        Pr_cycles = static_cast<unsigned long>(Pr_zeros) * static_cast<unsigned long>(Kh) * ceil_division(inp_height, Sh);
 
         // Subtract double counted padding cycles at top-left corner from top
         for (int i = Pt, j = Pl; i > 0 && j > 0; i -= Sh, j -= Sw)
-            Pt_cycles -= i * j;
+            Pt_cycles -= static_cast<unsigned long>(i) * static_cast<unsigned long>(j);
 
         // Subtract double counted padding cycles at top-right corner from top
         for (int i = Pt, j = (Pr - Redge); i > 0 && j > 0; i -= Sh, j -= Sw)
-            Pt_cycles -= i * j;
+            Pt_cycles -= static_cast<unsigned long>(i) * static_cast<unsigned long>(j);
 
         // Subtract double counted padding cycles at bottom-left corner from bottom
         for (int i = (Pb - Bedge), j = Pl; i > 0 && j > 0; i -= Sh, j -= Sw)
-            Pb_cycles -= i * j;
+            Pb_cycles -= static_cast<unsigned long>(i) * static_cast<unsigned long>(j);
 
         // Subtract double counted padding cycles at bottom-right corner from bottom
         for (int i = (Pb - Bedge), j = (Pr - Redge); i > 0 && j > 0; i -= Sh, j -= Sw)
-            Pb_cycles -= i * j;
+            Pb_cycles -= static_cast<unsigned long>(i) * static_cast<unsigned long>(j);
 
         return (Pt_cycles + Pb_cycles + Pl_cycles + Pr_cycles) * in_channels * out_channels;
     }
